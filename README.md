@@ -56,13 +56,24 @@ By dfault the power distribution board supplies voltage from all the 6 batteries
 
 VCC can be 3.5 V to 18 V
 
+*Important*
+The Mateksys F405-WMO flight controller does not have physical, onboard pull-up resistors, neither does the wheel encoder for ROMI. They must be installed or the wheel encoder signal will be too weak for the FC to detect it.
+Solder 4.7k resistor between the output A and B and VCC for each encoder.
+That is, one 4.7k resistor from output A to VCC and another 4.7k from output B to VCC for left encoder, repeat for the right one.
+
 https://ardupilot.org/rover/docs/wheel-encoder.html
+
+Connect the encoder VCC to one of the Vx pin on the autopilot.
+
+The AP we use has 3.3V logic levels but it is 5V tolerant.
+
 
 Motor driver
 
 It requires 2 separate supplies, one to the logic (1.8V ~ 7V) and one for the power to the motors (2~11V). The logic voltage can be obtained from the autopilot, or via a voltage converter.
 
-
+Note that the motors are positioned in a mirror image of each other so if connecting everything exactly on the left and right, motors will spin in opposite directions when increasing the throttle. If this happens, simply inverse M1 with M2 on one of the encorder board (or on the driver output).
+The same concept goes if motors are spinning in reverse (rover moving forward when it should move backward).
 
 **RC receiver.**
 
@@ -160,8 +171,19 @@ SERVO6_FUNCTION -> -1 (GPIO)
 
 set EK3_SRC1_VELXY to 7 (WheelEncoder)
 
+## send telemetry via a companion computer.
+
+We chose the raspberry pi picoW for this.
+
+
+
 ## Useful references:
 
 - [list of all rover parameters](https://ardupilot.org/rover/docs/parameters.html)
 - 
+
+## Abreviations
+
+AP: AutoPilot (=FC)
+FC: Flight controller
 
