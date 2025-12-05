@@ -175,6 +175,11 @@ set EK3_SRC1_VELXY to 7 (WheelEncoder)
 
 We chose the raspberry pi picoW for this.
 
+We'll set up a full MAVLink communication between the rover and QGroundControl (QGC) using the Raspberry Pi Pico W as a UDP bridge.
+
+- Integrate MAVLink into the Pico W code (to encode/decode MAVLink messages).
+- Forward MAVLink messages between the flight controller (FC) and QGC via UDP.
+- Ensure QGC is configured to connect to the Pico W's UDP endpoint.
 
 
 ## Useful references:
