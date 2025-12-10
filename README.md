@@ -171,6 +171,18 @@ SERVO6_FUNCTION -> -1 (GPIO)
 
 set EK3_SRC1_VELXY to 7 (WheelEncoder)
 
+## command the rover with mavlink messages
+
+### using mavproxy
+
+
+Ensure 
+
+### using program (C or python)
+
+A program is used to send specific commands.
+
+
 ## send telemetry via a companion computer.
 
 We chose the raspberry pi picoW for this.
