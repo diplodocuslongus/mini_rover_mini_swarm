@@ -175,6 +175,55 @@ set EK3_SRC1_VELXY to 7 (WheelEncoder)
 
 ### using mavproxy
 
+Install mavproxy
+
+Turn on the main power , plug the FC usb to the computer.
+
+    mavproxy.py --master=/dev/ttyACM0 --baudrate=115200
+
+Lots of messages will be shown in the console, which can be inconvienient when typing malink commands, so send these message to the gui console by typing:
+
+    module load console
+
+Make sure EK3_SRC1_VELXY is set to 7 (to make use of wheel odometry)
+
+Either in QGC or using a mavlink message:
+
+params set ek3_src1_velxy 7 
+
+(tip: tab completion works, and if the parameter's name is unsure, type:
+
+params set ek3_src1*, which will show:
+
+    EK3_SRC1_POSXY   0           # None
+    EK3_SRC1_POSZ    0           # None
+    EK3_SRC1_VELXY   7           # WheelEncoder
+    EK3_SRC1_VELZ    0           # None
+    EK3_SRC1_YAW     0           # None
+
+We need to set the GPS origin:
+
+    module load message
+    message SET_GPS_GLOBAL_ORIGIN 0 -353621474 1491651746 600000 0
+
+Change to guided mode and arm:
+
+    mode guided
+    arm throttle
+
+Then send a move forward message:
+
+    message SET_POSITION_TARGET_LOCAL_NED 0 0 0 7 3580 0.5 0 0 0 0 0 0 0 0 0 0
+
+
+
+
+
+Simple test: spin the wheels for a given distance or velocity:
+
+
+
+
 
 Ensure 
 
