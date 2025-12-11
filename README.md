@@ -213,7 +213,7 @@ Change to guided mode and arm:
 
 Then send a move forward message:
 
-    message SET_POSITION_TARGET_LOCAL_NED 0 0 0 7 3580 0.5 0 0 0 0 0 0 0 0 0 0
+    message SET_POSITION_TARGET_LOCAL_NED 0 0 0 7 3580 0.6 0 0 0 0 0 0 0 0 0 0
 
 
 
