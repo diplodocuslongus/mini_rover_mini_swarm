@@ -1,3 +1,9 @@
+# mavlink / mavproxy related
+img/mav.parm
+img/mav.tlog
+img/mav.tlog.raw
+
+
 # Prerequisites
 *.d
 

@@ -181,6 +181,13 @@ Turn on the main power , plug the FC usb to the computer.
 
     mavproxy.py --master=/dev/ttyACM0 --baudrate=115200
 
+To connect via an AP, see picoW AP code, use:
+
+    mavproxy.py --master=udpout:192.168.4.1:14550
+
+`192.168.4.1` is the picoW's IP address and `14550` the port for udp
+
+
 Lots of messages will be shown in the console, which can be inconvienient when typing malink commands, so send these message to the gui console by typing:
 
     module load console
@@ -214,9 +221,6 @@ Change to guided mode and arm:
 Then send a move forward message:
 
     message SET_POSITION_TARGET_LOCAL_NED 0 0 0 7 3580 0.6 0 0 0 0 0 0 0 0 0 0
-
-
-
 
 
 Simple test: spin the wheels for a given distance or velocity:
