@@ -200,7 +200,7 @@ params set ek3_src1_velxy 7
 
 (tip: tab completion works, and if the parameter's name is unsure, type:
 
-params set ek3_src1*, which will show:
+`param set ek3_src1*`, which will show:
 
     EK3_SRC1_POSXY   0           # None
     EK3_SRC1_POSZ    0           # None
@@ -234,6 +234,24 @@ Ensure
 ### using program (C or python)
 
 A program is used to send specific commands.
+
+Python:
+
+1) connect to the pico W AP
+2) connect to rover with :
+mavproxy.py --master=udpout:192.168.4.1:14550
+
+3) in mavproxy, run:
+
+        module load console
+        module load message
+        message SET_GPS_GLOBAL_ORIGIN 0 -353621474 1491651746 600000 0
+        mode guided
+        arm throttle
+
+4) run the python script to move forward:
+    
+    py move_fwd.py
 
 
 ## send telemetry via a companion computer.
