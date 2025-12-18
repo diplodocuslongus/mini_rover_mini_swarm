@@ -64,8 +64,9 @@ def print_wheel_distance(duration):
             print(f"Wheel distances: {msg.distance}")
 
 # Set GPS origin
-# print(f"Setting gps origin")
-# set_gps_global_origin(-24774307,121045573, 100)
+print(f"Setting gps origin")
+set_gps_global_origin(-247743070, 1210455730, 100) # bg 51
+# set_gps_global_origin(-353621474, 1491651746, 600) # desert
 # time.sleep(1)  # Wait for the command to be processed
 print(f"Done.")
 
@@ -114,21 +115,37 @@ def send_vel(vx,vy,vz,duration,cmd_send_rate):
             master.target_component,
             mavutil.mavlink.MAV_FRAME_BODY_NED,
             # mavutil.mavlink.MAV_FRAME_LOCAL_NED,
+            # 0b110111110111,  # type_mask: Use velocity (vx), ignore yaw
+            # 3575,  # same as above in decimal, doesn't move rover
+            # 1527,
             0b0000111111000111,  # type_mask: Use velocity (vx)
             0, 0, 0,  # x, y, z positions (meters)
-            vx, vy, vz,  # x, y, z velocities (m/s)
+            vx, 0, 0,  # x, y, z velocities (m/s)
+            # vx, vy, vz,  # x, y, z velocities (m/s)
             0, 0, 0,  # x, y, z accelerations (not used)
             0, 0  # yaw, yaw_rate (not used)
         )
         time.sleep(1.0/cmd_send_rate)
+    print("Stopping...")
+    master.mav.set_position_target_local_ned_send(
+        0,  master.target_system, master.target_component,
+        mavutil.mavlink.MAV_FRAME_BODY_NED,
+        0b0000111111000111,  0, 0, 0,  vx/2, 0, 0, 0, 0, 0,  0, 0  
+    )
+    time.sleep(1.0/cmd_send_rate)
+    master.mav.set_position_target_local_ned_send(
+        0,  master.target_system, master.target_component,
+        mavutil.mavlink.MAV_FRAME_BODY_NED,
+        0b0000111111000111,  0, 0, 0,  0, 0, 0, 0, 0, 0,  0, 0  
+    )
 
-# send_pos_vel(0.6,0.2)
-# send_vel(0.2,0.0,0.0,2,10)
-send_pos(0.6)
+# send_pos_vel(0.5,0.2)
+send_vel(0.1,0.0,0.0,2,10)
+# send_pos(0.3)
 print("Movement command sent. Monitoring wheel distance for 10 seconds...")
 print_wheel_distance(5)  # Monitor wheel distance for 10 seconds
 
 # Disarm the rover
-if not disarm():
-    exit(1)
+# if not disarm():
+#     exit(1)
 

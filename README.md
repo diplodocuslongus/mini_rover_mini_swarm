@@ -275,3 +275,36 @@ We'll set up a full MAVLink communication between the rover and QGroundControl (
 AP: AutoPilot (=FC)
 FC: Flight controller
 
+# Debugging
+
+## rover moves too fast
+
+Check the following FC parameters:
+
+    param show CRUISE_SPEED
+    param show WP_SPEED
+
+Lower the values for CRUISE_SPEED and WP_SPEED (values are in m/s).
+
+## Rover spinning on itself
+
+- check motor direction
+- `SERVOx_REVERSE`: normal or reversed? (x = 1 and 2 in this setup)
+- check if RC can normally control the Rover
+-
+Check the values of the steering rate controller (ex, from mavproxy)
+
+    param show ATC_STR_RAT_*
+    GUIDED> ATC_STR_RAT_D    0.0
+    ATC_STR_RAT_D_FF 0.0
+    ATC_STR_RAT_FF   0.20000000298023224
+    ATC_STR_RAT_FLTD 0.0
+    ATC_STR_RAT_FLTE 10.0
+    ATC_STR_RAT_FLTT 0.0
+    ATC_STR_RAT_I    0.20000000298023224
+    ATC_STR_RAT_IMAX 1.0
+    ATC_STR_RAT_MAX  120.0
+    ATC_STR_RAT_P    0.20000000298023224
+    ATC_STR_RAT_PDMX 0.0
+    ATC_STR_RAT_SMAX 0.0
+
