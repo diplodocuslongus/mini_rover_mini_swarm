@@ -127,17 +127,27 @@ def send_vel(vx,vy,vz,duration,cmd_send_rate):
         )
         time.sleep(1.0/cmd_send_rate)
     print("Stopping...")
-    master.mav.set_position_target_local_ned_send(
-        0,  master.target_system, master.target_component,
-        mavutil.mavlink.MAV_FRAME_BODY_NED,
-        0b0000111111000111,  0, 0, 0,  vx/2, 0, 0, 0, 0, 0,  0, 0  
-    )
-    time.sleep(1.0/cmd_send_rate)
-    master.mav.set_position_target_local_ned_send(
-        0,  master.target_system, master.target_component,
-        mavutil.mavlink.MAV_FRAME_BODY_NED,
-        0b0000111111000111,  0, 0, 0,  0, 0, 0, 0, 0, 0,  0, 0  
-    )
+    # master.mav.set_position_target_local_ned_send(
+    #     0,  master.target_system, master.target_component,
+    #     mavutil.mavlink.MAV_FRAME_BODY_NED,
+    #     0b0000111111000111,  0, 0, 0,  vx/2, 0, 0, 0, 0, 0,  0, 0  
+    # )
+    # time.sleep(1.0/cmd_send_rate)
+    # to test...
+    for _ in range(3):
+        master.mav.set_position_target_local_ned_send(
+            0,  master.target_system, master.target_component,
+            mavutil.mavlink.MAV_FRAME_BODY_NED,
+            0b0000111111000111,  0, 0, 0,  vx/2, 0, 0, 0, 0, 0,  0, 0  
+        )
+        time.sleep(1.0/cmd_send_rate)
+    for _ in range(3):
+        master.mav.set_position_target_local_ned_send(
+            0,  master.target_system, master.target_component,
+            mavutil.mavlink.MAV_FRAME_BODY_NED,
+            0b0000111111000111,  0, 0, 0,  0, 0, 0, 0, 0, 0,  0, 0  
+        )
+        time.sleep(1.0/cmd_send_rate)
 
 # send_pos_vel(0.5,0.2)
 send_vel(0.1,0.0,0.0,2,10)

@@ -1,8 +1,11 @@
 # mavlink / mavproxy related
-img/mav.parm
-img/mav.tlog
-img/mav.tlog.raw
+mav.parm
+mav.tlog
+mav.tlog.raw
 
+# vi swap
+
+*.swp
 
 # Prerequisites
 *.d
