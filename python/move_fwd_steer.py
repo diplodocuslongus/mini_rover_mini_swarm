@@ -1,12 +1,9 @@
+# move forward and/or steer
 from pymavlink import mavutil
 import time
 
 # Connect to the autopilot via UDP (PicoW)
-# master = mavutil.mavlink_connection('udp:192.168.4.16:14550')
-# master = mavutil.mavlink_connection('udp:192.168.4.16:14550', source_system=255)
 master = mavutil.mavlink_connection('udp:192.168.4.1:14550', source_system=255, input=False)
-# master = mavutil.mavlink_connection('udpout:192.168.4.1:14550', source_system=255)
-# master = mavutil.mavlink_connection('udpout:192.168.4.1:14550')
 
 # Wait for the heartbeat
 print("Waiting for heartbeat...")
@@ -28,15 +25,6 @@ def send_command(command, param1=0, param2=0, param3=0, param4=0, param5=0, para
     else:
         print(f"Command {command} not acknowledged")
         return False
-
-def set_gps_global_origin_manual(latitude, longitude, altitude):
-    master.mav.set_gps_global_origin_send(
-        master.target_system,
-        latitude ,  # Latitude in degrees (scaled by 1e7)
-        longitude ,  # Longitude in degrees (scaled by 1e7)
-        int(altitude * 1000), # Altitude in millimeters
-        int(time.time())
-    )
 
 def set_gps_global_origin(latitude, longitude, altitude):
     master.mav.command_long_send(
@@ -72,10 +60,47 @@ def print_wheel_distance(duration):
         if msg is not None:
             print(f"Wheel distances: {msg.distance}")
 
+def drive_forward(distance, speed=0.1):
+    # Time = Distance / Speed
+    duration = distance / speed
+    print(f"Driving forward {distance}m...")
+    send_vel(speed, 0, 0, duration, 10)
+    # Give the EKF a moment to settle
+    time.sleep(1)
+
+def turn_left_90(direction ="left"):
+    # We use Mask 1511.
+    # The last parameter is yaw_rate in radians/sec.
+    # 20 degrees/sec = ~0.35 rad/s
+    turn_rate_deg = 30
+    turn_rate_rad = turn_rate_deg * 3.14 / 180.0
+    yaw_rate_rad = turn_rate_rad if direction == "right" else -turn_rate_rad
+    # Duration to get 90 degrees at 20 deg/s is 4.5 seconds
+    duration = 90 / turn_rate_deg 
+    
+    print("Turning left 90 degrees...")
+    end_time = time.time() + duration
+    while time.time() < end_time:
+        master.mav.set_position_target_local_ned_send(
+            0, master.target_system, master.target_component,
+            mavutil.mavlink.MAV_FRAME_BODY_NED,
+            1511,       # Mask 1511 (Uses Vel X and Yaw Rate)
+            0, 0, 0,    # Position
+            0, 0, 0,    # Velocity (Set to 0 to pivot in place)
+            0, 0, 0,    # Acceleration
+            0, yaw_rate_rad # Negative is usually Left in ArduPilot
+        )
+        time.sleep(0.1)
+    
+    # Explicit Stop
+    send_vel(0, 0, 0, 0.5, 10)
+    time.sleep(1)
+
+
+
 # Set GPS origin
 print(f"Setting gps origin")
-set_gps_global_origin_manual(-247743070, 1210455730, 100) # bg 51
-# set_gps_global_origin(-247743070, 1210455730, 100) # bg 51
+set_gps_global_origin(-247743070, 1210455730, 100) # bg 51
 # set_gps_global_origin(-353621474, 1491651746, 600) # desert
 # time.sleep(1)  # Wait for the command to be processed
 print(f"Done.")
@@ -129,10 +154,10 @@ def send_vel(vx,vy,vz,duration,cmd_send_rate):
             # 0b110111110111,  # type_mask: Use velocity (vx), ignore yaw
             # 3575,  # same as above in decimal, doesn't move rover
             # 1527,
-            # mask,
-            0b0000111111000111,  # type_mask: Use velocity (vx)
+            mask,
+            # 0b0000111111000111,  # type_mask: Use velocity (vx)
             0, 0, 0,  # x, y, z positions (meters)
-            vx, 0 ,0,  # x, y, z velocities (m/s)
+            vx, 0,0 ,  # x, y, z velocities (m/s)
             # vx, vy, vz,  # x, y, z velocities (m/s)
             0, 0, 0,  # x, y, z accelerations (not used)
             0, 0  # yaw, yaw_rate (not used)
@@ -163,7 +188,11 @@ def send_vel(vx,vy,vz,duration,cmd_send_rate):
 
 # send_pos_vel(0.5,0.2)
 # send_vel(0.2,0.0,0.0,5,10)
-send_pos(0.5)
+# send_pos(0.3)
+# --- EXECUTE RECTANGLE ---
+for i in range(4):
+    drive_forward(0.5)
+    turn_left_90()
 print("Movement command sent. Monitoring wheel distance for 10 seconds...")
 print_wheel_distance(5)  # Monitor wheel distance for 10 seconds
 

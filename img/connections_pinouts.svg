@@ -24,11 +24,11 @@
      inkscape:pagecheckerboard="0"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="0.38528855"
-     inkscape:cx="1038.1829"
-     inkscape:cy="157.02517"
-     inkscape:window-width="1920"
-     inkscape:window-height="1011"
+     inkscape:zoom="1.088589"
+     inkscape:cx="789.09488"
+     inkscape:cy="341.72677"
+     inkscape:window-width="1128"
+     inkscape:window-height="683"
      inkscape:window-x="0"
      inkscape:window-y="32"
      inkscape:window-maximized="1"
@@ -1228,6 +1228,20 @@
          x="201.71852"
          id="tspan48493"
          sodipodi:role="line">Vx (5V)</tspan></text>
+    <text
+       id="text48495-0"
+       y="61.44693"
+       x="232.35997"
+       style="font-style:normal;font-weight:normal;font-size:4.23333px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       xml:space="preserve"
+       inkscape:export-filename="/home/ludofw/mygitrepos/UGV/mini_rover_mini_swarm/img/all_connections_no_picow.png"
+       inkscape:export-xdpi="200"
+       inkscape:export-ydpi="200"><tspan
+         style="stroke-width:0.264583"
+         y="61.44693"
+         x="232.35997"
+         id="tspan48493-3"
+         sodipodi:role="line">(S2: PWM)</tspan></text>
     <ellipse
        ry="0.66399831"
        rx="0.66757143"
@@ -13195,6 +13209,20 @@
          x="-89.194199"
          y="-145.29678"
          id="tspan59466" /></text>
+    <text
+       id="text4267"
+       y="71.501106"
+       x="232.88913"
+       style="font-style:normal;font-weight:normal;font-size:4.23333px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       xml:space="preserve"
+       inkscape:export-filename="/home/ludofw/mygitrepos/UGV/mini_rover_mini_swarm/img/all_connections_no_picow.png"
+       inkscape:export-xdpi="200"
+       inkscape:export-ydpi="200"><tspan
+         style="stroke-width:0.264583"
+         y="71.501106"
+         x="232.88913"
+         id="tspan4265"
+         sodipodi:role="line">(S1: PWM)</tspan></text>
   </g>
   <style
      type="text/css"

@@ -181,6 +181,11 @@ Turn on the main power , plug the FC usb to the computer.
 
     mavproxy.py --master=/dev/ttyACM0 --baudrate=115200
 
+Open with the console
+
+    $ mavproxy.py --master=/dev/ttyACM0 --baudrate=115200 --console
+
+
 To connect via an AP, see picoW AP code, use:
 
     mavproxy.py --master=udpout:192.168.4.1:14550
@@ -277,6 +282,33 @@ FC: Flight controller
 
 # Debugging
 
+## general guidelines
+
+Monitor some parameters in mavproxy
+
+    watch name_of_the_parameter
+
+stop watching (this will stop watching everything):
+
+    watch clear 
+
+For one shot watching all the parameters:
+
+    status 
+
+For a single parameter, here to see the RC channels as read by the FC (needs RC on and connected of course to see a change):
+
+    status RC_CHANNELS
+
+## rover moves backward
+
+General guideline: leave the RC channels as they are on the RC itself, i.e. don't reverse them there, and reverse what is required on the FC parmaeters.
+
+Reverse in AP if needed (RC3 is throttle here, check setting)
+
+    param set RC3_REVERSED 1 
+
+
 ## rover moves too fast
 
 Check the following FC parameters:
@@ -308,3 +340,14 @@ Check the values of the steering rate controller (ex, from mavproxy)
     ATC_STR_RAT_PDMX 0.0
     ATC_STR_RAT_SMAX 0.0
 
+Some parameters that affect the turn and turn rate:
+
+    param set ATC_STR_RAT_MAX 30
+    param set ATC_STR_RAT_FF 0.3
+    param set MOT_SLEWRATE 60
+    param set MOT_THR_MIN 10
+
+
+## rover tends to veer on one side when moving forward
+
+Adjust with SERVO1_TRIM andi/or SERVO2_TRIM.
