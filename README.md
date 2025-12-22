@@ -197,6 +197,11 @@ Lots of messages will be shown in the console, which can be inconvienient when t
 
     module load console
 
+Or load mavproxy with the console module directly:
+
+
+    mavproxy.py --master=udpout:192.168.4.1:14550 --console
+
 Make sure EK3_SRC1_VELXY is set to 7 (to make use of wheel odometry)
 
 Either in QGC or using a mavlink message:
@@ -244,7 +249,8 @@ Python:
 
 1) connect to the pico W AP
 2) connect to rover with :
-mavproxy.py --master=udpout:192.168.4.1:14550
+
+    mavproxy.py --master=udpout:192.168.4.1:14550
 
 3) in mavproxy, run:
 
