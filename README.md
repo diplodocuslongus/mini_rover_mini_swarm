@@ -26,7 +26,7 @@ Other references:
 
 ### Cheap platform
 
-
+Similar outcomes can be achieved with various degrees of success by using cheap platform, but they may be unrelieable especially when it comes to the wheel encoder parts. 
 
 ## autopilot
 
