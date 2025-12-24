@@ -162,8 +162,8 @@ def send_vel(vx,vy,vz,duration,cmd_send_rate):
         time.sleep(1.0/cmd_send_rate)
 
 # send_pos_vel(0.5,0.2)
-# send_vel(0.2,0.0,0.0,5,10)
-send_pos(0.5)
+send_vel(0.2,0.0,0.0,5,10)
+# send_pos(0.5)
 print("Movement command sent. Monitoring wheel distance for 10 seconds...")
 print_wheel_distance(5)  # Monitor wheel distance for 10 seconds
 

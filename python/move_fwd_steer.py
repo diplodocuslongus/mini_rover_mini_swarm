@@ -100,7 +100,7 @@ def turn_left_90(direction ="left"):
 
 # Set GPS origin
 print(f"Setting gps origin")
-set_gps_global_origin(-247743070, 1210455730, 100) # bg 51
+# set_gps_global_origin(-247743070, 1210455730, 100) # bg 51
 # set_gps_global_origin(-353621474, 1491651746, 600) # desert
 # time.sleep(1)  # Wait for the command to be processed
 print(f"Done.")
@@ -190,7 +190,7 @@ def send_vel(vx,vy,vz,duration,cmd_send_rate):
 # send_vel(0.2,0.0,0.0,5,10)
 # send_pos(0.3)
 # --- EXECUTE RECTANGLE ---
-for i in range(4):
+for i in range(2):
     drive_forward(0.5)
     turn_left_90()
 print("Movement command sent. Monitoring wheel distance for 10 seconds...")
