@@ -66,17 +66,17 @@ def drive_forward(distance, speed=0.1):
     print(f"Driving forward {distance}m...")
     send_vel(speed, 0, 0, duration, 10)
     # Give the EKF a moment to settle
-    time.sleep(1)
+    time.sleep(0.5)
 
 def turn_left_90(direction ="left"):
     # We use Mask 1511.
     # The last parameter is yaw_rate in radians/sec.
     # 20 degrees/sec = ~0.35 rad/s
-    turn_rate_deg = 30
+    turn_rate_deg = 30 #30
     turn_rate_rad = turn_rate_deg * 3.14 / 180.0
     yaw_rate_rad = turn_rate_rad if direction == "right" else -turn_rate_rad
     # Duration to get 90 degrees at 20 deg/s is 4.5 seconds
-    duration = 90 / turn_rate_deg 
+    duration = 90 / turn_rate_deg  + 0.15
     
     print("Turning left 90 degrees...")
     end_time = time.time() + duration
@@ -94,7 +94,7 @@ def turn_left_90(direction ="left"):
     
     # Explicit Stop
     send_vel(0, 0, 0, 0.5, 10)
-    time.sleep(1)
+    time.sleep(0.5)
 
 
 
@@ -189,7 +189,7 @@ def send_vel(vx,vy,vz,duration,cmd_send_rate):
 # send_pos_vel(0.5,0.2)
 # send_vel(0.2,0.0,0.0,5,10)
 # send_pos(0.3)
-# --- EXECUTE RECTANGLE ---
+# --- EXECUTE PATH
 for i in range(2):
     drive_forward(0.5)
     turn_left_90()
