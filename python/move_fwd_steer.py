@@ -68,7 +68,35 @@ def drive_forward(distance, speed=0.1):
     # Give the EKF a moment to settle
     time.sleep(0.5)
 
-def turn_left_90(direction ="left"):
+def turn_rate_angle(turn_rate_deg = 30,turn_angle = 90, direction ="left"):
+    # We use Mask 1511.
+    # The last parameter is yaw_rate in radians/sec.
+    # 20 degrees/sec = ~0.35 rad/s
+    # turn_rate_deg = 30 #30
+    turn_rate_rad = turn_rate_deg * 3.14 / 180.0
+    yaw_rate_rad = turn_rate_rad if direction == "right" else -turn_rate_rad
+    # Duration to get 90 degrees at 20 deg/s is 4.5 seconds
+    duration = turn_angle / turn_rate_deg  + 0.15
+    
+    print("Turning left 90 degrees...")
+    end_time = time.time() + duration
+    while time.time() < end_time:
+        master.mav.set_position_target_local_ned_send(
+            0, master.target_system, master.target_component,
+            mavutil.mavlink.MAV_FRAME_BODY_NED,
+            1511,       # Mask 1511 (Uses Vel X and Yaw Rate)
+            0, 0, 0,    # Position
+            0, 0, 0,    # Velocity (Set to 0 to pivot in place)
+            0, 0, 0,    # Acceleration
+            0, yaw_rate_rad # Negative is usually Left in ArduPilot
+        )
+        time.sleep(0.1)
+    
+    # Explicit Stop
+    send_vel(0, 0, 0, 0.5, 10)
+    time.sleep(0.5)
+
+def turn_left_90( direction ="left"):
     # We use Mask 1511.
     # The last parameter is yaw_rate in radians/sec.
     # 20 degrees/sec = ~0.35 rad/s
@@ -190,9 +218,10 @@ def send_vel(vx,vy,vz,duration,cmd_send_rate):
 # send_vel(0.2,0.0,0.0,5,10)
 # send_pos(0.3)
 # --- EXECUTE PATH
-for i in range(2):
-    drive_forward(0.5)
-    turn_left_90()
+for i in range(4):
+    drive_forward(0.4)
+    # turn_left_90()
+    turn_rate_angle(turn_rate_deg = 30,turn_angle = 50)
 print("Movement command sent. Monitoring wheel distance for 10 seconds...")
 print_wheel_distance(5)  # Monitor wheel distance for 10 seconds
 
